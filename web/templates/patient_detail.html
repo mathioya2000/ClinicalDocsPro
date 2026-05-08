@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ patient.name }}</h1>
+<div class="patient-meta">
+    <p><strong>MRN:</strong> {{ patient.mrn }} | <strong>DOB:</strong> {{ patient.dob }} | <strong>Sex:</strong> {{ patient.sex }}</p>
+    <p><strong>Admitting Physician:</strong> {{ patient.admitting_physician }}</p>
+    <p><strong>Admission:</strong> {{ patient.admission_date }} → <strong>Discharge:</strong> {{ patient.discharge_date }}</p>
+</div>
+
+<h2>Diagnoses</h2>
+<table>
+    <thead><tr><th>Type</th><th>ICD-10</th><th>Description</th></tr></thead>
+    <tbody>
+        <tr style="font-weight:bold; color:#8a2020;">
+            <td>Primary</td>
+            <td>{{ patient.primary_diagnosis.code }}</td>
+            <td>{{ lookup(patient.primary_diagnosis.code).name }}</td>
+        </tr>
+        {% for d in patient.secondary_diagnoses %}
+        <tr>
+            <td>Secondary</td>
+            <td>{{ d.code }}</td>
+            <td>{{ lookup(d.code).name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Medications</h2>
+{% if patient.medications %}
+<table>
+    <thead><tr><th>#</th><th>Medication</th><th>Dose</th><th>Route</th><th>Frequency</th><th>Purpose</th></tr></thead>
+    <tbody>
+        {% for med in patient.medications %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ med.name }}</td>
+            <td>{{ med.dose }}</td>
+            <td>{{ med.route }}</td>
+            <td>{{ med.frequency }}</td>
+            <td>{{ med.purpose }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No medications listed.</p>
+{% endif %}
+
+<h2>Allergies</h2>
+{% if patient.allergies %}
+<ul>
+    {% for a in patient.allergies %}
+    <li><strong>{{ a.name }}</strong> — {{ a.reaction }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No known allergies.</p>
+{% endif %}
+
+<h2>Discharge Instructions</h2>
+{% if patient.discharge_instructions %}
+<ul>
+    {% for i in patient.discharge_instructions %}
+    <li>{{ i }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>None.</p>
+{% endif %}
+
+<h2>Follow-Up</h2>
+{% if patient.follow_up %}
+<table>
+    <thead><tr><th>Provider</th><th>Specialty</th><th>Date</th><th>Contact</th></tr></thead>
+    <tbody>
+        {% for fu in patient.follow_up %}
+        <tr>
+            <td>{{ fu.provider }}</td>
+            <td>{{ fu.specialty }}</td>
+            <td>{{ fu.date }}</td>
+            <td>{{ fu.contact }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>None.</p>
+{% endif %}
+
+<h2>Clinical Notes</h2>
+<p>{{ patient.notes if patient.notes else "None." }}</p>
+
+<div class="actions">
+    <a href="{{ url_for('patient_report', mrn=patient.mrn) }}" class="btn">Download PDF Report</a>
+    <form method="post" action="{{ url_for('patient_delete', mrn=patient.mrn) }}" style="display:inline;">
+        <button type="submit" class="btn delete" onclick="return confirm('Delete this patient?')">Delete Patient</button>
+    </form>
+</div>
+{% endblock %}

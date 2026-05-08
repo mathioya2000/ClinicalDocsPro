@@ -1,0 +1,72 @@
+1. WHAT IS HYPERTENSION?
+Hypertension is a chronic condition where the force of blood against artery walls is persistently elevated.
+It is the most common modifiable cardiovascular risk factor known as the silent killer.
+Defined as SBP >= 130 mmHg and/or DBP >= 80 mmHg on two or more occasions.
+
+2. CLASSIFICATION
+- Normal: SBP < 120 AND DBP < 80
+- Elevated: SBP 120-129 AND DBP < 80
+- Stage 1 HTN: SBP 130-139 OR DBP 80-89
+- Stage 2 HTN: SBP >= 140 OR DBP >= 90
+- Hypertensive Crisis: SBP > 180 AND/OR DBP > 120
+Important: Hypertensive Emergency is BP > 180/120 with end-organ damage requiring ICU admission.
+
+3. TYPES
+- Primary Essential HTN: No identifiable single cause; 90-95% of cases
+- Secondary HTN: CKD; primary aldosteronism; renovascular disease; OSA; thyroid disorders; medications
+
+4. RISK FACTORS
+- Age; family history; Black race; CKD
+- Obesity; physical inactivity; high sodium diet > 2300 mg/day
+- Excessive alcohol; smoking; chronic stress; diabetes; dyslipidemia
+
+5. SIGNS AND SYMPTOMS
+- Usually asymptomatic until severe
+- Occipital headache; dizziness; visual disturbances
+- Shortness of breath; chest pain; nosebleeds; fatigue
+Note: Absence of symptoms does NOT mean BP is controlled.
+
+6. DIAGNOSIS
+- Patient seated quietly >= 5 minutes before measurement
+- Feet flat; back supported; arm at heart level
+- Take at least 2 readings 1-2 minutes apart
+- ABPM is gold standard for 24-hour monitoring
+
+7. BP TARGETS
+- General adult population: < 130/80 mmHg
+- Adults >= 65 years: < 130/80 mmHg if tolerated
+- Diabetes mellitus: < 130/80 mmHg
+- Chronic kidney disease: < 130/80 mmHg
+- Pregnancy chronic HTN: < 140/90 mmHg
+
+8. MANAGEMENT
+- Weight loss: 1 mmHg per kg lost
+- DASH diet: 8-14 mmHg reduction
+- Sodium reduction < 1500 mg/day: 5-6 mmHg reduction
+- Physical activity >= 150 min/week: 4-9 mmHg reduction
+- Limit alcohol: 3-4 mmHg reduction
+- ACE Inhibitor: lisinopril; preferred in DM+CKD; HF; post-MI
+- ARB: losartan; used when ACEi not tolerated
+- CCB: amlodipine; preferred in elderly; isolated systolic HTN
+- Thiazide Diuretic: chlorthalidone; preferred in elderly; volume overload
+- Beta-Blocker: metoprolol; preferred in CAD; HF; AF
+- Aldosterone Antagonist: spironolactone; resistant HTN; HFrEF
+
+9. MONITORING
+- Recheck BP 1 month after initiating or changing therapy
+- Once at goal and stable: follow-up every 3-6 months
+- Home BP monitoring target average < 135/85 mmHg
+- Annual cardiovascular risk assessment
+
+10. COMPLICATIONS
+- Coronary artery disease; myocardial infarction; left ventricular hypertrophy
+- Heart failure; atrial fibrillation; aortic dissection
+- Ischaemic and haemorrhagic stroke; TIA; vascular dementia
+- CKD; end-stage renal disease; hypertensive retinopathy
+
+11. PATIENT EDUCATION
+- Take blood pressure medications every day even when you feel well
+- Monitor BP at home; keep a log to share at each visit
+- Follow a low-sodium diet; aim for < 1500 mg sodium per day
+- Exercise at least 30 minutes most days; maintain a healthy weight
+- Know warning signs of hypertensive crisis: severe headache; chest pain; sudden vision change

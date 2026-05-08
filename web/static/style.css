@@ -1,0 +1,159 @@
+/* ClinicalDocsPro Dashboard Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f4f7fa;
+    color: #1a3a5c;
+}
+nav {
+    background: #1a3a5c;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+nav .nav-brand a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+nav ul li a {
+    color: #ccddee;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    color: white;
+}
+.container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.flash {
+    padding: 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.flash.success {
+    background: #d4edda;
+    color: #155724;
+}
+.flash.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+.flash.info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+.stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    flex: 1;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.stat-card h3 {
+    margin: 0;
+    font-size: 2rem;
+    color: #2e5f8a;
+}
+.btn {
+    display: inline-block;
+    background: #2e5f8a;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn.small {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+}
+.btn.delete {
+    background: #8a2020;
+}
+.btn:hover {
+    opacity: 0.9;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+th, td {
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid #e0e6ed;
+    text-align: left;
+    font-size: 0.9rem;
+}
+th {
+    background: #eef2f7;
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background: #f9fbfd;
+}
+fieldset {
+    border: 1px solid #d0d7e2;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+}
+legend {
+    font-weight: bold;
+    color: #1a3a5c;
+    padding: 0 0.5rem;
+}
+label {
+    display: block;
+    margin-bottom: 0.8rem;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+.med-row, .allergy-row, .fu-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.med-row input, .allergy-row input, .fu-row input {
+    flex: 1;
+}
+.search-form {
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+.search-form input {
+    flex: 1;
+}
+.actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.7rem;
+}

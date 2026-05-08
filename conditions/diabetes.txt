@@ -1,0 +1,77 @@
+1. WHAT IS DIABETES?
+Diabetes mellitus is a chronic metabolic condition characterized by elevated blood glucose resulting from defects in insulin secretion, insulin action, or both.
+Insulin is a hormone produced by the beta cells of the pancreas. It allows glucose from food to enter cells and be used for energy.
+
+2. TYPES OF DIABETES
+- Type 1 (T1DM): Autoimmune beta-cell destruction; absolute insulin deficiency; lifelong insulin required; 5-10% of cases
+- Type 2 (T2DM): Insulin resistance and relative deficiency; obesity-linked; most common form 90-95% of cases
+- Gestational (GDM): Develops in pregnancy; resolves post-delivery; raises future T2DM risk
+- Pre-Diabetes: FPG 100-125 mg/dL; OGTT 140-199 mg/dL; HbA1c 5.7-6.4%; reversible with intervention
+
+3. DIAGNOSTIC CRITERIA
+Diagnosis requires ONE of the following confirmed on repeat testing:
+- Fasting Plasma Glucose >= 126 mg/dL (7.0 mmol/L)
+- 2-hr OGTT >= 200 mg/dL (11.1 mmol/L)
+- HbA1c >= 6.5% (48 mmol/mol)
+- Random glucose >= 200 mg/dL with classic symptoms
+
+4. SIGNS AND SYMPTOMS
+- Polyuria: frequent urination
+- Polydipsia: excessive thirst
+- Polyphagia: increased hunger
+- Unexplained weight loss especially T1DM
+- Fatigue and weakness
+- Blurred vision
+- Slow-healing wounds or frequent infections
+- Numbness or tingling in hands and feet
+Note: Type 2 diabetes is often asymptomatic for years; routine screening is essential.
+
+5. RISK FACTORS
+- Age >= 45 years; family history; high-risk ethnicity
+- Overweight or obesity BMI >= 25
+- Physical inactivity; unhealthy diet
+- Hypertension; dyslipidemia; smoking
+
+6. GLYCAEMIC TARGETS
+- HbA1c < 7.0% for most non-pregnant adults
+- Fasting glucose 80-130 mg/dL
+- Post-prandial glucose < 180 mg/dL
+- Blood pressure < 130/80 mmHg
+- LDL cholesterol < 70 mg/dL high CVD risk
+
+7. MANAGEMENT
+- Weight loss 5-10% body weight reduction significantly improves glucose control
+- Physical activity >= 150 min/week moderate aerobic exercise
+- Diet: Mediterranean, DASH, or low-carbohydrate diets
+- Metformin: preferred first-line agent; weight neutral; low cost
+- GLP-1 RA: semaglutide; cardiovascular benefit; weight loss
+- SGLT-2i: empagliflozin; cardiovascular and renal benefit
+- DPP-4i: sitagliptin; well tolerated
+- Sulfonylurea: glipizide; low cost; risk of hypoglycaemia
+- Insulin: glargine; any HbA1c level
+
+8. MONITORING
+- HbA1c every 3 months if not at goal or every 6 months if stable
+- Blood pressure every visit
+- Lipid panel annually
+- UACR annually
+- eGFR annually
+- Dilated eye exam at diagnosis then annually
+- Foot exam at every visit
+
+9. COMPLICATIONS
+- Diabetic Ketoacidosis DKA: primarily T1DM; life-threatening
+- Hyperosmolar Hyperglycaemic State HHS: primarily T2DM; life-threatening
+- Hypoglycaemia: glucose < 70 mg/dL; severe if < 54 mg/dL
+- Retinopathy: leading cause of blindness in working-age adults
+- Nephropathy: leading cause of end-stage renal disease
+- Neuropathy: peripheral and autonomic; risk of foot ulcers
+- Coronary artery disease; stroke; peripheral artery disease
+
+10. PATIENT EDUCATION
+- Know your blood sugar targets and how to measure them
+- Take all medications as prescribed; never skip doses
+- Follow a balanced consistent meal plan
+- Stay physically active daily
+- Check your feet every day for sores blisters or redness
+- Know the signs of hypoglycaemia and how to treat it

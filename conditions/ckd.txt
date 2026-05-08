@@ -1,0 +1,49 @@
+1. DEFINITION
+CKD is defined as abnormalities of kidney structure or function present for > 3 months.
+Diagnosed by eGFR < 60 mL/min/1.73m2 for >= 3 months OR markers of kidney damage such as UACR >= 30 mg/g.
+
+2. STAGING
+- Stage G1: eGFR >= 90 Normal with damage marker
+- Stage G2: eGFR 60-89 Mildly decreased
+- Stage G3a: eGFR 45-59 Mildly-moderately decreased
+- Stage G3b: eGFR 30-44 Moderately-severely decreased
+- Stage G4: eGFR 15-29 Severely decreased
+- Stage G5: eGFR < 15 Kidney failure requiring RRT
+
+3. CAUSES
+- Diabetic nephropathy most common
+- Hypertensive nephropathy; glomerulonephritis
+- Polycystic kidney disease; obstructive uropathy
+- NSAIDs; contrast; aminoglycosides nephrotoxicity
+
+4. SIGNS AND SYMPTOMS
+- Early: usually asymptomatic detected on screening labs
+- Late Stage 4-5: fatigue; nausea; vomiting; anorexia; pruritus
+- Oedema; dyspnoea; hypertension; anaemia; bone disease
+
+5. MANAGEMENT
+- BP control target < 130/80 mmHg; ACEi or ARB preferred
+- Glycaemic control in diabetes HbA1c < 7-8%
+- SGLT-2 inhibitors dapagliflozin empagliflozin reduce CKD progression
+- Protein restriction 0.6-0.8 g/kg/day advanced CKD
+- Avoid nephrotoxins: NSAIDs; IV contrast
+- Anaemia: iron supplementation; ESA if Hgb < 10 g/dL
+- Hyperkalaemia: dietary K+ restriction; patiromer
+- Metabolic acidosis: sodium bicarbonate if HCO3 < 22 mEq/L
+
+6. RENAL REPLACEMENT THERAPY
+- Haemodialysis HD: 3x/week; AV fistula preferred access
+- Peritoneal dialysis PD: home-based; continuous
+- Kidney transplantation: preferred long-term option
+
+7. MEDICATION ADJUSTMENTS
+- Metformin: hold if eGFR < 30; caution 30-45
+- NSAIDs: avoid in CKD worsens progression
+- Gabapentin: reduce dose; accumulates in CKD
+- DOACs: dose-adjust per product labelling
+
+8. PATIENT EDUCATION
+- Know your kidney numbers: eGFR and UACR
+- Control blood pressure and blood sugar daily
+- Avoid NSAIDs herbal supplements and nephrotoxic agents
+- Follow a kidney-friendly diet: low sodium low potassium low phosphorus

@@ -1,0 +1,87 @@
+{
+  "name": "John M. Doe",
+  "dob": "March 14, 1958",
+  "mrn": "0047821-B",
+  "sex": "Male",
+  "admitting_physician": "Dr. Sarah L. Martinez, MD",
+  "admission_date": "April 28, 2026",
+  "discharge_date": "May 3, 2026",
+  "primary_diagnosis": {
+    "code": "I50.22"
+  },
+  "secondary_diagnoses": [
+    {
+      "code": "I48.91"
+    },
+    {
+      "code": "E11.65"
+    },
+    {
+      "code": "N18.32"
+    },
+    {
+      "code": "I10"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Furosemide",
+      "dose": "80 mg",
+      "route": "Oral",
+      "frequency": "BID",
+      "purpose": "Diuresis"
+    },
+    {
+      "name": "Bisoprolol",
+      "dose": "5 mg",
+      "route": "Oral",
+      "frequency": "Daily",
+      "purpose": "Rate/BP"
+    },
+    {
+      "name": "Apixaban",
+      "dose": "5 mg",
+      "route": "Oral",
+      "frequency": "BID",
+      "purpose": "AFib"
+    },
+    {
+      "name": "Metformin",
+      "dose": "500 mg",
+      "route": "Oral",
+      "frequency": "BID",
+      "purpose": "Diabetes"
+    }
+  ],
+  "allergies": [
+    {
+      "name": "Penicillin",
+      "reaction": "Rash"
+    },
+    {
+      "name": "Codeine",
+      "reaction": "Nausea"
+    }
+  ],
+  "discharge_instructions": [
+    "Sodium < 1,500 mg/day",
+    "Weigh daily; call MD if +2 lbs in 1 day",
+    "Light walking 10-15 minutes twice daily"
+  ],
+  "follow_up": [
+    {
+      "provider": "Dr. R. Flores",
+      "specialty": "Primary Care",
+      "date": "May 7, 2026",
+      "contact": "(936) 555-0142"
+    },
+    {
+      "provider": "Dr. A. Hughes",
+      "specialty": "Cardiology",
+      "date": "May 12, 2026",
+      "contact": "(936) 555-0287"
+    }
+  ],
+  "notes": "5-day admission for ADHF. Discharged stable with home health.",
+  "created": "2026-05-08"
+}

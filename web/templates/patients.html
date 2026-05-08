@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Patients</h1>
+<form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search by name, MRN, or ICD-10 code..." value="{{ query }}">
+    <button type="submit">Search</button>
+    {% if query %}<a href="{{ url_for('patients') }}" class="clear">Clear</a>{% endif %}
+</form>
+
+{% if patients %}
+<table>
+    <thead>
+        <tr><th>MRN</th><th>Name</th><th>Admission</th><th>Discharge</th><th>Primary Diagnosis</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for mrn, p in patients.items() %}
+        <tr>
+            <td>{{ mrn }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.admission_date }}</td>
+            <td>{{ p.discharge_date }}</td>
+            <td>{{ p.primary_diagnosis.code }}</td>
+            <td><a href="{{ url_for('patient_detail', mrn=mrn) }}" class="btn small">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No patients found.</p>
+{% endif %}
+<a href="{{ url_for('new_patient') }}" class="btn">Add New Patient</a>
+{% endblock %}

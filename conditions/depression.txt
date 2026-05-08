@@ -1,0 +1,68 @@
+1. DEFINITION
+Major Depressive Disorder MDD is a common serious mood disorder.
+Characterised by persistent depressed mood or anhedonia that significantly impairs daily functioning.
+Leading cause of disability worldwide.
+
+2. DIAGNOSTIC CRITERIA DSM-5
+>= 5 symptoms for >= 2 weeks including depressed mood OR anhedonia:
+- Depressed mood most of the day nearly every day
+- Markedly diminished interest or pleasure anhedonia
+- Significant weight or appetite change > 5% in 1 month
+- Insomnia or hypersomnia
+- Psychomotor agitation or retardation
+- Fatigue or loss of energy
+- Feelings of worthlessness or excessive guilt
+- Diminished concentration or indecisiveness
+- Recurrent thoughts of death or suicidal ideation
+
+3. SEVERITY PHQ-9
+- Score 0-4: None/minimal; monitor and reassess
+- Score 5-9: Mild; watchful waiting; psychotherapy; lifestyle
+- Score 10-14: Moderate; psychotherapy and/or pharmacotherapy
+- Score 15-19: Moderately severe; pharmacotherapy; consider referral
+- Score >= 20: Severe; pharmacotherapy + psychotherapy; consider ECT
+
+4. RISK FACTORS
+- Prior depressive episodes; family history
+- Chronic medical illness: diabetes; heart disease; cancer; CKD
+- Substance use disorder; trauma; PTSD
+- Social isolation; significant life stressors
+- Female sex 2x higher risk; postpartum period
+
+5. PSYCHOTHERAPY
+- Cognitive Behavioural Therapy CBT: gold standard; most evidence
+- Interpersonal Therapy IPT: especially for grief and relationship issues
+- Behavioural Activation: effective for mild-moderate depression
+- Mindfulness-Based CBT MBCT: relapse prevention
+Note: Psychotherapy combined with pharmacotherapy is superior to either alone.
+
+6. PHARMACOTHERAPY
+- Sertraline SSRI 50-200 mg/day: first-line; fewest drug interactions
+- Escitalopram SSRI 10-20 mg/day: clean side-effect profile
+- Fluoxetine SSRI 20-60 mg/day: long half-life; useful if adherence concern
+- Venlafaxine SNRI 75-225 mg/day: anxiety; chronic pain; depression
+- Duloxetine SNRI 60-120 mg/day: diabetic neuropathy + depression
+- Bupropion 150-450 mg/day: no sexual dysfunction; avoid if seizure risk
+- Mirtazapine 15-45 mg/day: promotes sleep and appetite; useful in elderly
+- Esketamine Spravato intranasal: rapid-onset; treatment-resistant depression
+- ECT: most effective for severe/refractory depression; immediate suicide risk
+
+7. SAFETY AND SUICIDAL IDEATION
+- Always assess suicidality at every visit
+- High risk: hospitalise; remove access to lethal means
+Warning: SSRIs carry black-box warning for suicidal ideation in patients < 25 years.
+- Crisis Line: 988 Suicide and Crisis Lifeline call or text 988
+
+8. MONITORING
+- PHQ-9 at each visit to track response
+- Reassess 2-4 weeks after starting medication
+- Full reassessment at 6-8 weeks
+- Monitor weight sleep sexual function SSRI side effects
+
+9. PATIENT EDUCATION
+- Depression is a medical illness not a character weakness
+- Antidepressants are not addictive; they take time to work 4-8 weeks
+- Do not stop medications abruptly; taper under physician guidance
+- Therapy and medication together work better than either alone
+- Regular exercise reduces depression by 30%; improve sleep; limit alcohol
+- Know crisis resources: 988 Suicide and Crisis Lifeline

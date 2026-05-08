@@ -1,0 +1,46 @@
+1. DEFINITION
+Asthma is a heterogeneous disease of chronic airway inflammation causing variable airflow limitation.
+Diagnosed by FEV1/FVC < 0.70 with >= 12% and 200 mL reversibility after SABA.
+
+2. CLASSIFICATION
+- Intermittent: symptoms <= 2 days/week; FEV1 >= 80%
+- Mild Persistent: symptoms > 2 days/week; nighttime 3-4/month; FEV1 >= 80%
+- Moderate Persistent: daily symptoms; nighttime > 1/week; FEV1 60-79%
+- Severe Persistent: continual symptoms; frequent nighttime; FEV1 < 60%
+
+3. TRIGGERS
+- Allergens: dust mites; pet dander; cockroach; mould; pollen
+- Irritants: smoke; strong odours; air pollution; cold air
+- Respiratory infections viral most common exacerbation trigger
+- Exercise; aspirin NSAIDs beta-blockers; GERD; stress
+
+4. STEP THERAPY GINA
+- Step 1 Intermittent: low-dose ICS-formoterol PRN preferred or SABA PRN
+- Step 2 Mild persistent: low-dose ICS daily or low-dose ICS-formoterol PRN
+- Step 3 Moderate: low-dose ICS-LABA daily or medium-dose ICS
+- Step 4 Severe: medium-dose ICS-LABA; add LAMA
+- Step 5 Uncontrolled: high-dose ICS-LABA + LAMA; consider biologic; specialist referral
+
+5. BIOLOGICS
+- Omalizumab anti-IgE: allergic asthma elevated total IgE
+- Mepolizumab benralizumab anti-IL-5: eosinophilic asthma
+- Dupilumab anti-IL-4/13: type 2 inflammation; also treats eczema
+- Tezepelumab anti-TSLP: broad type 2 and non-type 2 severe asthma
+
+6. ACUTE EXACERBATION
+- Mild-moderate: SABA 4-8 puffs q20 min x 3; prednisolone 40-50 mg x 5-7 days
+- Severe: high-flow O2 target SpO2 93-95%; continuous SABA + ipratropium nebs
+- IV magnesium sulphate 2 g over 20 min for severe exacerbation
+
+7. MONITORING
+- ACT or ACQ for symptom control at each visit
+- Spirometry at diagnosis; after stabilisation; annually
+- Inhaler technique and adherence at every visit
+- Step down if controlled >= 3 months
+
+8. PATIENT EDUCATION
+- Use ICS every day even when feeling well; it prevents attacks
+- Know difference between preventer ICS and reliever SABA inhalers
+- Carry reliever inhaler at all times
+- Identify and avoid personal triggers
+- Have a written Asthma Action Plan

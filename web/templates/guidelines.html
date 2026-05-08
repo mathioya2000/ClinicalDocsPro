@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Clinical Guidelines</h1>
+<p>Reference library of {{ conditions|length }} chronic conditions.</p>
+<ul>
+    {% for f in conditions %}
+    <li>{{ f.replace('.txt','').replace('_',' ').title() }}</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('generate_guidelines') }}" class="btn">Download Full Guidelines PDF</a>
+{% endblock %}

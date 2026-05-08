@@ -1,0 +1,59 @@
+1. DEFINITION
+Heart failure is a clinical syndrome where the heart cannot pump sufficient blood to meet the body's metabolic needs or can do so only at elevated filling pressures.
+
+2. CLASSIFICATION
+- HFrEF: EF < 40% reduced ejection fraction
+- HFmrEF: EF 41-49% mildly reduced
+- HFpEF: EF >= 50% preserved ejection fraction
+- NYHA Class I: No symptoms with ordinary activity
+- NYHA Class II: Mild symptoms; slight limitation
+- NYHA Class III: Marked limitation; comfortable only at rest
+- NYHA Class IV: Symptoms at rest; unable to carry on any activity
+
+3. CAUSES
+- Ischaemic heart disease most common
+- Hypertension; valvular disease; cardiomyopathy
+- Arrhythmias AF; diabetes; alcohol; chemotherapy
+
+4. SIGNS AND SYMPTOMS
+- Dyspnoea on exertion; orthopnoea; paroxysmal nocturnal dyspnoea
+- Peripheral oedema; JVD; hepatomegaly
+- Fatigue; weight gain; reduced exercise tolerance
+- S3 gallop; tachycardia; pulmonary crackles
+
+5. DIAGNOSIS
+- BNP >= 100 pg/mL or NT-proBNP >= 300 pg/mL
+- Echocardiogram: EF wall motion valve function
+- Chest X-ray: cardiomegaly pulmonary vascular congestion
+- ECG: LVH prior MI arrhythmia
+
+6. MANAGEMENT HFREF
+- ACEi or ARB or ARNI sacubitril/valsartan: mortality benefit
+- Beta-blocker: carvedilol; metoprolol succinate; bisoprolol
+- Aldosterone antagonist: spironolactone; eplerenone
+- SGLT-2 inhibitor: dapagliflozin; empagliflozin
+- Loop diuretics: furosemide for congestion symptom relief only
+- ICD if EF < 35% and NYHA II-III on optimal therapy
+- CRT if EF <= 35% with LBBB and QRS >= 150 ms
+
+7. MANAGEMENT HFPEF
+- Treat underlying causes HTN AF obesity diabetes
+- SGLT-2 inhibitors reduce HF hospitalisation
+- Diuretics for congestion
+
+8. MONITORING
+- Daily weights; report gain > 2 lbs/day or > 5 lbs/week
+- BMP renal function electrolytes every 1-6 months
+- BNP at follow-up visits
+- Echo every 1-2 years or after therapy change
+
+9. ACUTE DECOMPENSATION
+- IV diuresis furosemide 40-80 mg IV; strict fluid restriction
+- Supplemental O2; continuous cardiac monitoring
+- Identify precipitants: infection; AF; medication non-adherence
+Warning: Sudden severe dyspnoea; chest pain; SpO2 < 90% call 911 immediately.
+
+10. PATIENT EDUCATION
+- Weigh daily; limit sodium < 2000 mg/day; fluid < 1.5-2 L/day
+- Take all medications daily; never stop without physician advice
+- Seek emergency care for sudden weight gain; severe dyspnoea; chest pain

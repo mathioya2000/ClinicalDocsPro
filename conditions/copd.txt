@@ -1,0 +1,49 @@
+1. DEFINITION
+COPD is a persistent progressive airflow limitation caused by airway and alveolar abnormalities.
+Diagnosed by FEV1/FVC < 0.70 post-bronchodilator spirometry.
+Tobacco smoking accounts for 80-90% of cases.
+
+2. GOLD CLASSIFICATION
+- GOLD 1 Mild: FEV1 >= 80% predicted
+- GOLD 2 Moderate: FEV1 50-79% predicted
+- GOLD 3 Severe: FEV1 30-49% predicted
+- GOLD 4 Very Severe: FEV1 < 30% predicted
+
+3. RISK FACTORS
+- Tobacco smoking most common
+- Occupational dust and chemical exposure
+- Indoor air pollution biomass fuel
+- Alpha-1 antitrypsin deficiency genetic
+
+4. SIGNS AND SYMPTOMS
+- Chronic productive cough; increased sputum
+- Progressive dyspnoea on exertion hallmark
+- Wheeze; prolonged expiration; barrel chest
+- Use of accessory muscles; pursed-lip breathing
+
+5. INHALER THERAPY
+- Group A: SAMA or SABA as needed
+- Group B: LAMA preferred or LABA; add LABA+LAMA if symptomatic
+- Group E: LAMA+LABA; add ICS if blood eos >= 300/uL
+- Triple: ICS + LABA + LAMA eg Trelegy FF/UMEC/VI
+- Roflumilast: severe COPD with chronic bronchitis and exacerbations
+- Long-term O2 LTOT if PaO2 <= 55 mmHg or SpO2 <= 88%
+
+6. EXACERBATION MANAGEMENT
+- Mild: increase SABA; oral prednisolone 40 mg x 5 days
+- Moderate: SABA + SAMA nebs; prednisolone; antibiotics if purulent sputum
+- Severe: controlled O2 target SpO2 88-92%; nebs; steroids; antibiotics
+- NIV if pH < 7.35 and PaCO2 elevated
+
+7. MONITORING
+- Spirometry annually
+- SpO2 at each visit; ABG if SpO2 < 92%
+- CAT or mMRC score at each visit
+- Inhaler technique review at every visit
+
+8. PATIENT EDUCATION
+- Stop smoking: single most effective intervention
+- Use inhalers correctly; demonstrate technique at every visit
+- Recognise early signs of exacerbation: increased dyspnoea sputum changes wheeze
+- Keep rescue inhaler SABA accessible at all times
+- Stay up to date with all vaccinations

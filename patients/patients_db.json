@@ -1,0 +1,245 @@
+{
+  "0047821-B": {
+    "name": "John M. Doe",
+    "dob": "March 14, 1958",
+    "mrn": "0047821-B",
+    "sex": "Male",
+    "admitting_physician": "Dr. Sarah L. Martinez, MD",
+    "admission_date": "April 28, 2026",
+    "discharge_date": "May 3, 2026",
+    "primary_diagnosis": {
+      "code": "I50.22"
+    },
+    "secondary_diagnoses": [
+      {
+        "code": "I48.91"
+      },
+      {
+        "code": "E11.65"
+      },
+      {
+        "code": "N18.32"
+      },
+      {
+        "code": "I10"
+      }
+    ],
+    "medications": [
+      {
+        "name": "Furosemide",
+        "dose": "80 mg",
+        "route": "Oral",
+        "frequency": "BID",
+        "purpose": "Diuresis"
+      },
+      {
+        "name": "Bisoprolol",
+        "dose": "5 mg",
+        "route": "Oral",
+        "frequency": "Daily",
+        "purpose": "Rate/BP"
+      },
+      {
+        "name": "Apixaban",
+        "dose": "5 mg",
+        "route": "Oral",
+        "frequency": "BID",
+        "purpose": "AFib"
+      },
+      {
+        "name": "Metformin",
+        "dose": "500 mg",
+        "route": "Oral",
+        "frequency": "BID",
+        "purpose": "Diabetes"
+      }
+    ],
+    "allergies": [
+      {
+        "name": "Penicillin",
+        "reaction": "Rash"
+      },
+      {
+        "name": "Codeine",
+        "reaction": "Nausea"
+      }
+    ],
+    "discharge_instructions": [
+      "Sodium < 1,500 mg/day",
+      "Weigh daily; call MD if +2 lbs in 1 day",
+      "Light walking 10-15 minutes twice daily"
+    ],
+    "follow_up": [
+      {
+        "provider": "Dr. R. Flores",
+        "specialty": "Primary Care",
+        "date": "May 7, 2026",
+        "contact": "(936) 555-0142"
+      },
+      {
+        "provider": "Dr. A. Hughes",
+        "specialty": "Cardiology",
+        "date": "May 12, 2026",
+        "contact": "(936) 555-0287"
+      }
+    ],
+    "notes": "5-day admission for ADHF. Discharged stable with home health.",
+    "created": "2026-05-08"
+  },
+  "0051234-A": {
+    "name": "Maria L. Santos",
+    "dob": "July 22, 1965",
+    "mrn": "0051234-A",
+    "sex": "Female",
+    "admitting_physician": "Dr. Kevin R. Owens, MD",
+    "admission_date": "May 1, 2026",
+    "discharge_date": "May 5, 2026",
+    "primary_diagnosis": {
+      "code": "J44.1"
+    },
+    "secondary_diagnoses": [
+      {
+        "code": "E11.9"
+      },
+      {
+        "code": "E66.09"
+      }
+    ],
+    "medications": [
+      {
+        "name": "Tiotropium",
+        "dose": "18 mcg",
+        "route": "Inhaled",
+        "frequency": "Daily",
+        "purpose": "COPD"
+      },
+      {
+        "name": "Salbutamol",
+        "dose": "100 mcg",
+        "route": "Inhaled",
+        "frequency": "PRN",
+        "purpose": "Rescue"
+      },
+      {
+        "name": "Prednisolone",
+        "dose": "40 mg",
+        "route": "Oral",
+        "frequency": "Daily",
+        "purpose": "Exacerbation"
+      },
+      {
+        "name": "Metformin",
+        "dose": "1000 mg",
+        "route": "Oral",
+        "frequency": "BID",
+        "purpose": "Diabetes"
+      }
+    ],
+    "allergies": [
+      {
+        "name": "Aspirin",
+        "reaction": "Bronchospasm"
+      }
+    ],
+    "discharge_instructions": [
+      "Use tiotropium inhaler every morning",
+      "Carry salbutamol rescue inhaler at all times",
+      "Complete prednisolone course as prescribed",
+      "Stop smoking — referral to cessation programme provided"
+    ],
+    "follow_up": [
+      {
+        "provider": "Dr. K. Owens",
+        "specialty": "Pulmonology",
+        "date": "May 12, 2026",
+        "contact": "(936) 555-0198"
+      },
+      {
+        "provider": "Dr. R. Flores",
+        "specialty": "Primary Care",
+        "date": "May 15, 2026",
+        "contact": "(936) 555-0142"
+      }
+    ],
+    "notes": "Admitted with COPD exacerbation. GOLD Grade 3. Discharged on triple therapy.",
+    "created": "2026-05-08"
+  },
+  "0062891-C": {
+    "name": "Robert T. Kim",
+    "dob": "November 5, 1972",
+    "mrn": "0062891-C",
+    "sex": "Male",
+    "admitting_physician": "Dr. Angela T. Hughes, MD",
+    "admission_date": "May 4, 2026",
+    "discharge_date": "May 6, 2026",
+    "primary_diagnosis": {
+      "code": "I10"
+    },
+    "secondary_diagnoses": [
+      {
+        "code": "E78.5"
+      },
+      {
+        "code": "F32.1"
+      }
+    ],
+    "medications": [
+      {
+        "name": "Amlodipine",
+        "dose": "10 mg",
+        "route": "Oral",
+        "frequency": "Daily",
+        "purpose": "HTN"
+      },
+      {
+        "name": "Lisinopril",
+        "dose": "20 mg",
+        "route": "Oral",
+        "frequency": "Daily",
+        "purpose": "HTN"
+      },
+      {
+        "name": "Atorvastatin",
+        "dose": "40 mg",
+        "route": "Oral",
+        "frequency": "Nightly",
+        "purpose": "Cholesterol"
+      },
+      {
+        "name": "Sertraline",
+        "dose": "50 mg",
+        "route": "Oral",
+        "frequency": "Daily",
+        "purpose": "Depression"
+      }
+    ],
+    "allergies": [
+      {
+        "name": "Sulfa drugs",
+        "reaction": "Rash"
+      }
+    ],
+    "discharge_instructions": [
+      "Monitor BP at home twice daily; log readings",
+      "Low-sodium diet < 1,500 mg/day",
+      "Exercise 30 minutes most days",
+      "Continue sertraline; follow up with psychiatry"
+    ],
+    "follow_up": [
+      {
+        "provider": "Dr. A. Hughes",
+        "specialty": "Cardiology",
+        "date": "May 14, 2026",
+        "contact": "(936) 555-0287"
+      },
+      {
+        "provider": "Dr. P. Nguyen",
+        "specialty": "Psychiatry",
+        "date": "May 21, 2026",
+        "contact": "(936) 555-0445"
+      }
+    ],
+    "notes": "Admitted for hypertensive urgency. BP controlled on dual therapy. Depression identified; sertraline started.",
+    "created": "2026-05-08"
+  }
+}

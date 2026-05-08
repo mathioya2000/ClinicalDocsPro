@@ -1,0 +1,62 @@
+1. DEFINITION
+Atrial fibrillation is the most common sustained cardiac arrhythmia.
+Characterised by disorganised atrial electrical activity with irregular often rapid ventricular response.
+
+2. CLASSIFICATION
+- Paroxysmal: self-terminating within 7 days usually < 48 hours
+- Persistent: lasting > 7 days; requires cardioversion
+- Long-standing persistent: continuous > 12 months
+- Permanent: rhythm control no longer pursued
+
+3. CAUSES AND RISK FACTORS
+- Hypertension most common; HF; valvular disease; CAD
+- Hyperthyroidism; obesity; OSA; alcohol
+- Post-cardiac surgery; electrolyte disorders
+
+4. SIGNS AND SYMPTOMS
+- Palpitations; irregular heartbeat
+- Dyspnoea; fatigue; reduced exercise tolerance
+- Dizziness; pre-syncope; chest discomfort
+- May be asymptomatic detected incidentally
+
+5. STROKE RISK CHA2DS2-VASC
+- C Congestive HF: 1 point
+- H Hypertension: 1 point
+- A Age >= 75: 2 points
+- D Diabetes mellitus: 1 point
+- S Stroke/TIA history: 2 points
+- V Vascular disease MI PAD: 1 point
+- A Age 65-74: 1 point
+- Sc Sex category Female: 1 point
+Score >= 2 male or >= 3 female: anticoagulate
+
+6. ANTICOAGULATION
+- Apixaban 5 mg BID preferred DOAC
+- Rivaroxaban 20 mg daily with evening meal
+- Dabigatran 150 mg BID
+- Edoxaban 60 mg daily
+- Warfarin if mechanical heart valve or severe mitral stenosis target INR 2-3
+
+7. RATE CONTROL
+- Target resting HR < 110 bpm lenient or < 80 bpm strict
+- Beta-blockers: metoprolol; bisoprolol preferred
+- Non-DHP CCBs: diltiazem; verapamil; avoid in HFrEF
+- Digoxin: adjunct; useful in HF
+
+8. RHYTHM CONTROL
+- Electrical cardioversion DCCV: synchronised shock
+- Flecainide propafenone: structurally normal heart only
+- Amiodarone: most effective; significant toxicity
+- Catheter ablation PVI: preferred for paroxysmal AF
+
+9. MONITORING
+- HR and rhythm at every visit
+- Renal function and electrolytes annually
+- TFTs annually especially if on amiodarone
+- Echo every 1-2 years
+
+10. PATIENT EDUCATION
+- Take anticoagulant every day; do not miss doses
+- Know signs of stroke: FAST Face drooping Arm weakness Speech difficulty Time to call 911
+- Report palpitations; dizziness; worsening breathlessness
+- Limit alcohol; treat OSA; manage weight

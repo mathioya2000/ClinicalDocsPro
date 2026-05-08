@@ -1,0 +1,45 @@
+1. DEFINITION
+Hyperlipidaemia is elevation of lipids in the bloodstream.
+A primary modifiable risk factor for atherosclerotic cardiovascular disease ASCVD.
+
+2. LIPID TARGETS
+- LDL-C general: < 100 mg/dL; high risk: < 70 mg/dL; very high risk: < 55 mg/dL
+- HDL-C men: > 40 mg/dL; women: > 50 mg/dL
+- Triglycerides: < 150 mg/dL
+- Non-HDL-C: < 130 mg/dL general; < 100 mg/dL high risk
+
+3. RISK CATEGORIES
+- Very High Risk: established ASCVD prior MI stroke PAD ACS
+- High Risk: LDL >= 190; diabetes age 40-75; 10-yr risk >= 20%
+- Intermediate: 10-yr ASCVD risk 7.5-20%
+- Low: 10-yr ASCVD risk < 7.5%
+
+4. LIFESTYLE MODIFICATIONS
+- Reduce saturated fat < 6% calories; eliminate trans fats
+- Increase fibre omega-3s plant sterols
+- Weight reduction if overweight
+- Physical activity >= 150 min/week aerobic exercise
+- Smoking cessation; limit alcohol
+
+5. STATIN THERAPY
+- High-intensity: atorvastatin 40-80 mg; rosuvastatin 20-40 mg; LDL reduction >= 50%
+- Moderate-intensity: atorvastatin 10-20 mg; rosuvastatin 5-10 mg; LDL reduction 30-49%
+- Side effects: myalgia; myopathy rare rhabdomyolysis; elevated LFTs
+
+6. ADD-ON THERAPIES
+- Ezetimibe 10 mg daily: inhibits intestinal cholesterol absorption; further LDL reduction 18-25%
+- PCSK9 Inhibitors evolocumab alirocumab: injectable q2-4 weeks; LDL reduction 50-60%
+- Inclisiran: twice-yearly siRNA injection; similar efficacy to PCSK9i
+- Fibrates fenofibrate: hypertriglyceridaemia TG reduction 30-50%
+- Omega-3 icosapentaenoic acid Vascepa 4 g/day: CV benefit
+
+7. MONITORING
+- Fasting lipid panel at baseline; 4-12 weeks after starting therapy; then every 3-12 months
+- LFTs at baseline; recheck only if symptomatic
+- CK at baseline; recheck if muscle symptoms develop
+
+8. PATIENT EDUCATION
+- Statins are protective; do not stop without physician advice
+- Report muscle pain weakness or dark urine immediately
+- Dietary changes complement but do not replace medication
+- Know your LDL number and personal target

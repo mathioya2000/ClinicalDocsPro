@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add New Patient</h1>
+<form method="post">
+    <fieldset>
+        <legend>Demographics</legend>
+        <label>Full Name: <input type="text" name="name" required></label>
+        <label>DOB (e.g. March 14, 1958): <input type="text" name="dob" required></label>
+        <label>MRN: <input type="text" name="mrn" required></label>
+        <label>Sex:
+            <select name="sex">
+                <option>Male</option><option>Female</option><option>Other</option>
+            </select>
+        </label>
+        <label>Admitting Physician: <input type="text" name="admitting_physician" required></label>
+        <label>Admission Date: <input type="text" name="admission_date" required></label>
+        <label>Discharge Date: <input type="text" name="discharge_date" required></label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Primary Diagnosis (ICD-10)</legend>
+        <label>Code: <input type="text" name="primary_code" placeholder="e.g. I50.22" required></label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Secondary Diagnoses (optional)</legend>
+        <div id="secondary-dx">
+            <div><input type="text" name="secondary_codes" placeholder="ICD-10 code"></div>
+        </div>
+        <button type="button" onclick="addField('secondary-dx','secondary_codes','ICD-10 code')">+ Add</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Medications</legend>
+        <div id="medications">
+            <div class="med-row">
+                <input type="text" name="med_name" placeholder="Name">
+                <input type="text" name="med_dose" placeholder="Dose">
+                <input type="text" name="med_route" placeholder="Route">
+                <input type="text" name="med_frequency" placeholder="Frequency">
+                <input type="text" name="med_purpose" placeholder="Purpose">
+            </div>
+        </div>
+        <button type="button" onclick="addMedRow()">+ Add Medication</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Allergies</legend>
+        <div id="allergies">
+            <div class="allergy-row">
+                <input type="text" name="allergy_name" placeholder="Allergen">
+                <input type="text" name="allergy_reaction" placeholder="Reaction">
+            </div>
+        </div>
+        <button type="button" onclick="addAllergyRow()">+ Add Allergy</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Discharge Instructions</legend>
+        <textarea name="discharge_instructions" rows="4" placeholder="One per line"></textarea>
+    </fieldset>
+
+    <fieldset>
+        <legend>Follow-Up Appointments</legend>
+        <div id="followups">
+            <div class="fu-row">
+                <input type="text" name="fu_provider" placeholder="Provider">
+                <input type="text" name="fu_specialty" placeholder="Specialty">
+                <input type="text" name="fu_date" placeholder="Date">
+                <input type="text" name="fu_contact" placeholder="Contact">
+            </div>
+        </div>
+        <button type="button" onclick="addFuRow()">+ Add Follow-Up</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Clinical Notes</legend>
+        <textarea name="notes" rows="3"></textarea>
+    </fieldset>
+
+    <button type="submit" class="btn">Save Patient</button>
+</form>
+
+<script>
+function addField(containerId, name, placeholder) {
+    const div = document.createElement('div');
+    div.innerHTML = `<input type="text" name="${name}" placeholder="${placeholder}">`;
+    document.getElementById(containerId).appendChild(div);
+}
+function addMedRow() {
+    const div = document.createElement('div');
+    div.className = 'med-row';
+    div.innerHTML = `
+        <input type="text" name="med_name" placeholder="Name">
+        <input type="text" name="med_dose" placeholder="Dose">
+        <input type="text" name="med_route" placeholder="Route">
+        <input type="text" name="med_frequency" placeholder="Frequency">
+        <input type="text" name="med_purpose" placeholder="Purpose">
+    `;
+    document.getElementById('medications').appendChild(div);
+}
+function addAllergyRow() {
+    const div = document.createElement('div');
+    div.className = 'allergy-row';
+    div.innerHTML = `
+        <input type="text" name="allergy_name" placeholder="Allergen">
+        <input type="text" name="allergy_reaction" placeholder="Reaction">
+    `;
+    document.getElementById('allergies').appendChild(div);
+}
+function addFuRow() {
+    const div = document.createElement('div');
+    div.className = 'fu-row';
+    div.innerHTML = `
+        <input type="text" name="fu_provider" placeholder="Provider">
+        <input type="text" name="fu_specialty" placeholder="Specialty">
+        <input type="text" name="fu_date" placeholder="Date">
+        <input type="text" name="fu_contact" placeholder="Contact">
+    `;
+    document.getElementById('followups').appendChild(div);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,49 @@
+1. DEFINITION AND CLASSIFICATION
+Obesity is a chronic multifactorial disease of excess adiposity.
+- BMI 25.0-29.9: Overweight
+- BMI 30.0-34.9: Obesity Class I
+- BMI 35.0-39.9: Obesity Class II
+- BMI >= 40.0: Obesity Class III morbid/severe
+Central adiposity: waist > 40 inches men; > 35 inches women
+
+2. CAUSES
+- Energy imbalance excess intake or insufficient expenditure
+- Genetic predisposition; epigenetic factors
+- Medications: corticosteroids; antipsychotics; insulin; antidepressants
+- Hypothyroidism; Cushings syndrome; PCOS; sleep deprivation
+
+3. HEALTH CONSEQUENCES
+- T2DM; dyslipidaemia; metabolic syndrome; NAFLD
+- Hypertension; CAD; HF; AF; stroke
+- OSA; obesity hypoventilation; asthma
+- Osteoarthritis; gout; infertility; PCOS
+- Increased cancer risk: endometrial; breast; colorectal
+
+4. LIFESTYLE INTERVENTION
+- Dietary modification: hypocaloric diet deficit 500-750 kcal/day
+- Physical activity >= 150 min/week aerobic; resistance training 2-3x/week
+- Behavioural therapy: CBT; goal setting; self-monitoring
+- Target >= 5% weight loss for metabolic benefit
+
+5. PHARMACOTHERAPY
+- Semaglutide sc Wegovy GLP-1 agonist: expected loss 15-17%
+- Tirzepatide sc Zepbound GIP+GLP-1 dual: expected loss 20-22%
+- Phentermine/topiramate Qsymia: expected loss 8-10%
+- Naltrexone/bupropion Contrave: expected loss 5-8%
+- Orlistat: lipase inhibitor; expected loss 3-5%
+
+6. BARIATRIC SURGERY
+- Sleeve gastrectomy: most common; 25% EWL; no malabsorption
+- Roux-en-Y gastric bypass RYGB: 30-35% EWL; T2DM remission 60-80%
+- BPD/DS: greatest weight loss; reserved for BMI > 50
+
+7. MONITORING
+- Weight and BMI at every visit
+- Reassess comorbidities after >= 5% weight loss
+- Post-bariatric: labs every 3-6 months vitamin B12 D iron folate calcium
+
+8. PATIENT EDUCATION
+- Obesity is a chronic disease not a personal failure
+- Small sustainable changes are more effective than extreme diets
+- Set realistic goals: 5-10% weight loss significantly improves health
+- Maintain regular follow-up; weight regain is common and manageable

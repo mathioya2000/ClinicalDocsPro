@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Reports</h1>
+{% if files %}
+<table>
+    <thead><tr><th>Filename</th><th>Size</th><th></th></tr></thead>
+    <tbody>
+        {% for f in files %}
+        <tr>
+            <td>{{ f.name }}</td>
+            <td>{{ f.size }}</td>
+            <td><a href="{{ url_for('download_report', filename=f.name) }}" class="btn small">Download</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No reports generated yet.</p>
+{% endif %}
+{% endblock %}
