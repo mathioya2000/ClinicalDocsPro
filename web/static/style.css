@@ -1,3 +1,33 @@
+/* Autocomplete */
+.autocomplete-items {
+    position: absolute;
+    z-index: 99;
+    background: white;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.autocomplete-items div {
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.autocomplete-items div:hover {
+    background: #eef2f7;
+}
+.secondary-row {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+.secondary-row .autocomplete-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
 /* ClinicalDocsPro Dashboard Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -156,4 +186,78 @@ input, select, textarea {
     margin-top: 2rem;
     display: flex;
     gap: 0.7rem;
+}
+/* Charts */
+.charts-row {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0 2.5rem 0;
+    flex-wrap: wrap;
+}
+.chart-container {
+    flex: 1 1 300px;
+    background: white;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.chart-container h2 {
+    font-size: 1rem;
+    margin-top: 0;
+    color: #1a3a5c;
+    margin-bottom: 1rem;
+}
+.chart-container canvas {
+    max-height: 280px;
+}
+/* Dark mode */
+body.dark {
+    background: #1a1f2b;
+    color: #e0e0e0;
+}
+body.dark nav {
+    background: #10141c;
+}
+body.dark .stat-card,
+body.dark .chart-container,
+body.dark fieldset,
+body.dark table,
+body.dark .autocomplete-items {
+    background: #252a36;
+    color: #e0e0e0;
+    border-color: #3a404d;
+}
+body.dark th {
+    background: #2f3542;
+}
+body.dark tr:nth-child(even) {
+    background: #2a2f3a;
+}
+body.dark a {
+    color: #8bb4e0;
+}
+body.dark .btn {
+    background: #3a5070;
+}
+body.dark .btn.delete {
+    background: #6a2a2a;
+}
+body.dark .flash.success { background: #1e3b2a; color: #a3d9a5; }
+body.dark .flash.error { background: #4b1e1e; color: #f5a3a3; }
+body.dark .flash.info { background: #1e334b; color: #a3c9f5; }
+body.dark #dark-toggle {
+    background: #3a404d;
+    color: #f0f0f0;
+    border: 1px solid #555;
+}
+#dark-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+#dark-toggle:hover {
+    background: rgba(255,255,255,0.1);
 }

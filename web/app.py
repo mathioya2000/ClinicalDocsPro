@@ -10,7 +10,8 @@ from flask import Flask, render_template, request, redirect, url_for, send_file,
 from patient_manager import (
     load_db, add_patient, get_patient, delete_patient,
     list_patients, search_patients, generate_patient_report,
-    export_patient, db_stats
+    export_patient, db_stats, search_patients_paginated,
+    init_db
 )
 from pdf_generator import generate_pdf, list_conditions
 from icd10_lookup import lookup, get_all_categories, get_codes_by_category
@@ -39,17 +40,25 @@ def index():
     return render_template("index.html", stats=stats, recent=recent)
 
 
-# ── Patients list ─────────────────────────────────────────────────────────────
+# ── Patients list with search, sort & pagination ──────────────────────────────
 @app.route("/patients")
 def patients():
-    db     = load_db()
-    query  = request.args.get("q", "").strip()
-    if query:
-        mrns = search_patients(query)
-        data = {mrn: db[mrn] for mrn in mrns if mrn in db}
-    else:
-        data = db
-    return render_template("patients.html", patients=data, query=query)
+    query = request.args.get("q", "").strip()
+    sort_by = request.args.get("sort", "mrn")
+    order = request.args.get("order", "asc")
+    page = request.args.get("page", 1, type=int)
+    per_page = 10
+
+    data = search_patients_paginated(query, sort_by=sort_by, order=order, page=page, per_page=per_page)
+
+    return render_template("patients.html",
+                           patients=data['patients'],
+                           query=query,
+                           sort_by=sort_by,
+                           order=order,
+                           current_page=data['current_page'],
+                           pages=data['pages'],
+                           total=data['total'])
 
 
 # ── View single patient ───────────────────────────────────────────────────────
@@ -73,11 +82,9 @@ def new_patient():
 
     if request.method == "POST":
         try:
-            # Parse secondary diagnoses
             sec_codes = request.form.getlist("secondary_codes")
             secondary = [{"code": c} for c in sec_codes if c.strip()]
 
-            # Parse medications
             med_names  = request.form.getlist("med_name")
             med_doses  = request.form.getlist("med_dose")
             med_routes = request.form.getlist("med_route")
@@ -92,7 +99,6 @@ def new_patient():
                 if n.strip()
             ]
 
-            # Parse allergies
             all_names     = request.form.getlist("allergy_name")
             all_reactions = request.form.getlist("allergy_reaction")
             allergies = [
@@ -101,14 +107,12 @@ def new_patient():
                 if n.strip()
             ]
 
-            # Parse instructions
             instructions = [
                 i.strip() for i in
                 request.form.get("discharge_instructions", "").splitlines()
                 if i.strip()
             ]
 
-            # Parse follow-up
             fu_providers  = request.form.getlist("fu_provider")
             fu_specialties= request.form.getlist("fu_specialty")
             fu_dates      = request.form.getlist("fu_date")
@@ -150,7 +154,7 @@ def new_patient():
                            categories=categories, all_codes=all_codes)
 
 
-# ── Generate patient report ───────────────────────────────────────────────────
+# ── Generate patient report (PDF) ─────────────────────────────────────────────
 @app.route("/patients/<mrn>/report")
 def patient_report(mrn):
     result = generate_patient_report(mrn, include_guidelines=True)
@@ -159,6 +163,24 @@ def patient_report(mrn):
         return send_file(result, as_attachment=True,
                          download_name=os.path.basename(result))
     flash("Failed to generate report.", "error")
+    return redirect(url_for("patient_detail", mrn=mrn))
+
+
+# ── Generate discharge letter (Word) ──────────────────────────────────────────
+@app.route("/patients/<mrn>/discharge-word")
+def patient_discharge_word(mrn):
+    patient = get_patient(mrn)
+    if not patient:
+        flash("Patient not found.", "error")
+        return redirect(url_for("patients"))
+    
+    from report_builder import generate_discharge_word
+    result = generate_discharge_word(patient)
+    if result and os.path.exists(result):
+        flash("Discharge letter (Word) generated!", "success")
+        return send_file(result, as_attachment=True,
+                         download_name=os.path.basename(result))
+    flash("Failed to generate discharge letter.", "error")
     return redirect(url_for("patient_detail", mrn=mrn))
 
 
@@ -189,8 +211,24 @@ def generate_guidelines():
     flash("Failed to generate guidelines PDF.", "error")
     return redirect(url_for("guidelines"))
 
+# ── ICD-10 search API (autocomplete) ──────────────────────────────────────────
+@app.route("/api/icd10/search")
+def api_icd10_search():
+    q = request.args.get("q", "").strip().upper()
+    if not q:
+        return jsonify([])
 
-# ── ICD-10 search API ─────────────────────────────────────────────────────────
+    # Search ICD10_CODES dictionary (imported from icd10_lookup)
+    from icd10_lookup import ICD10_CODES
+    results = []
+    for code, info in ICD10_CODES.items():
+        if q in code or q in info["name"].upper():
+            results.append({
+                "code": code,
+                "name": info["name"]
+            })
+    return jsonify(results[:10])  # limit to 10 suggestions
+# ── ICD-10 lookup API ─────────────────────────────────────────────────────────
 @app.route("/api/icd10")
 def api_icd10():
     code = request.args.get("code", "").strip()
@@ -205,7 +243,7 @@ def reports():
     files = []
     if os.path.exists(REPORTS_DIR):
         for f in sorted(os.listdir(REPORTS_DIR)):
-            if f.endswith(".pdf"):
+            if f.endswith(".pdf") or f.endswith(".docx"):
                 path = os.path.join(REPORTS_DIR, f)
                 files.append({
                     "name": f,
@@ -215,7 +253,7 @@ def reports():
     return render_template("reports.html", files=files)
 
 
-# ── Download a report ─────────────────────────────────────────────────────────
+# ── Download a report (PDF or Word) ───────────────────────────────────────────
 @app.route("/reports/<filename>")
 def download_report(filename):
     filepath = os.path.join(REPORTS_DIR, filename)
@@ -223,10 +261,67 @@ def download_report(filename):
         return send_file(filepath, as_attachment=True, download_name=filename)
     flash("Report not found.", "error")
     return redirect(url_for("reports"))
+# ── Chart data API ────────────────────────────────────────────────────────────
+@app.route("/api/chart-data")
+def chart_data():
+    db = load_db()
+    # Count primary diagnoses
+    dx_counts = {}
+    for p in db.values():
+        code = p.get("primary_diagnosis", {}).get("code", "Unknown")
+        dx_counts[code] = dx_counts.get(code, 0) + 1
 
+    # Count sex
+    sex_counts = {"Male": 0, "Female": 0, "Other": 0}
+    for p in db.values():
+        sex = p.get("sex", "Other")
+        if sex in sex_counts:
+            sex_counts[sex] += 1
+        else:
+            sex_counts["Other"] += 1
+
+    return jsonify({
+        "diagnoses": {
+            "labels": list(dx_counts.keys()),
+            "values": list(dx_counts.values())
+        },
+        "sex": {
+            "labels": list(sex_counts.keys()),
+            "values": list(sex_counts.values())
+        }
+    })
 
 if __name__ == "__main__":
+    init_db()
     print("=== ClinicalDocsPro Web Dashboard ===")
     print("  Open your browser at: http://127.0.0.1:5000")
     print("  Press Ctrl+C to stop\n")
     app.run(debug=True, port=5000)
+    # ── Export all patients to CSV ────────────────────────────────────────────────
+@app.route("/patients/export-csv")
+def export_csv():
+    db = load_db()
+    import csv, io
+    output = io.StringIO()
+    writer = csv.writer(output)
+    # Header
+    writer.writerow(["MRN", "Name", "DOB", "Sex", "Admission Date", "Discharge Date",
+                     "Primary Diagnosis Code", "Secondary Diagnosis Codes",
+                     "Medications", "Allergies", "Notes"])
+    for mrn, p in db.items():
+        pri_code = p.get("primary_diagnosis", {}).get("code", "")
+        sec_codes = "; ".join([d.get("code", "") for d in p.get("secondary_diagnoses", [])])
+        meds = "; ".join([m.get("name", "") for m in p.get("medications", [])])
+        allergies = "; ".join([a.get("name", "") for a in p.get("allergies", [])])
+        writer.writerow([
+            mrn, p.get("name"), p.get("dob"), p.get("sex"),
+            p.get("admission_date"), p.get("discharge_date"),
+            pri_code, sec_codes, meds, allergies, p.get("notes")
+        ])
+    output.seek(0)
+    from flask import Response
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment;filename=patients.csv"}
+    )

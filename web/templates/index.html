@@ -16,6 +16,17 @@
     </div>
 </div>
 
+<div class="charts-row">
+    <div class="chart-container">
+        <h2>Patients by Primary Diagnosis</h2>
+        <canvas id="diagnosisChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2>Patients by Sex</h2>
+        <canvas id="sexChart"></canvas>
+    </div>
+</div>
+
 <h2>Recent Patients</h2>
 {% if recent %}
 <table>
@@ -38,4 +49,57 @@
 <p>No patients yet.</p>
 {% endif %}
 <a href="{{ url_for('new_patient') }}" class="btn">Add New Patient</a>
+
+<!-- Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+fetch('/api/chart-data')
+  .then(res => res.json())
+  .then(data => {
+    // Diagnosis bar chart
+    const ctx1 = document.getElementById('diagnosisChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: data.diagnoses.labels,
+        datasets: [{
+          label: 'Number of patients',
+          data: data.diagnoses.values,
+          backgroundColor: '#2e5f8a',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        }
+      }
+    });
+
+    // Sex pie chart
+    const ctx2 = document.getElementById('sexChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'pie',
+      data: {
+        labels: data.sex.labels,
+        datasets: [{
+          data: data.sex.values,
+          backgroundColor: ['#2e5f8a', '#1a7a6e', '#8a5010'],
+          borderColor: 'white',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}

@@ -3,6 +3,7 @@
 
 import os
 import sys
+from icd10_lookup import lookup, get_codes_by_category
 from datetime import date
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
@@ -332,7 +333,154 @@ def build_report(patient, include_guidelines=True, output_filename=None):
     doc.build(story)
     print(f"  Saved to: {output_path}")
     return output_path
+# Add to src/report_builder.py (near the end, before the test block)
+import docx
+from docx.shared import Inches, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
+def generate_discharge_word(patient, output_path=None):
+    """
+    Generate a professional discharge summary letter in .docx format.
+    Returns the file path.
+    """
+    os.makedirs(REPORTS_DIR, exist_ok=True)
+    if output_path is None:
+        safe_name = patient.name.replace(" ", "_").lower()
+        output_path = os.path.join(REPORTS_DIR, f"{safe_name}_{patient.mrn}_discharge.docx")
+    
+    doc = docx.Document()
+    
+    # ── Styles ─────────────────────────────────────────────
+    style = doc.styles['Normal']
+    font = style.font
+    font.name = 'Calibri'
+    font.size = Pt(11)
+    
+    # ── Header ─────────────────────────────────────────────
+    header = doc.add_heading('DISCHARGE SUMMARY', level=0)
+    header.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    
+    # Hospital info
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run('General Hospital — Department of Internal Medicine')
+    run.font.size = Pt(10)
+    run.font.color.rgb = RGBColor(0x44, 0x44, 0x44)
+    
+    doc.add_paragraph()  # spacer
+    
+    # ── Patient demographics table ─────────────────────────
+    table = doc.add_table(rows=7, cols=2)
+    table.style = 'Light Shading Accent 1'
+    cells = [
+        ('Patient Name', patient.name),
+        ('Date of Birth', patient.dob),
+        ('MRN', patient.mrn),
+        ('Sex', patient.sex),
+        ('Admitting Physician', patient.admitting_physician),
+        ('Admission Date', patient.admission_date),
+        ('Discharge Date', patient.discharge_date),
+    ]
+    for i, (label, value) in enumerate(cells):
+        table.cell(i, 0).text = label
+        table.cell(i, 1).text = str(value)
+        # Bold the label
+        for paragraph in table.cell(i, 0).paragraphs:
+            for run in paragraph.runs:
+                run.bold = True
+    
+    doc.add_paragraph()
+    
+    # ── Diagnoses ──────────────────────────────────────────
+    doc.add_heading('Diagnoses', level=1)
+    # Primary diagnosis
+    diag_table = doc.add_table(rows=1, cols=2)
+    diag_table.style = 'Light List Accent 1'
+    diag_table.cell(0, 0).text = 'Primary'
+    diag_table.cell(0, 1).text = f"{patient.primary_diagnosis.get('code', '')} — {lookup(patient.primary_diagnosis.get('code', ''))['name']}"
+    for d in patient.secondary_diagnoses:
+        row = diag_table.add_row()
+        row.cells[0].text = 'Secondary'
+        row.cells[1].text = f"{d.get('code', '')} — {lookup(d.get('code', ''))['name']}"
+    
+    doc.add_paragraph()
+    
+    # ── Discharge Medications ──────────────────────────────
+    doc.add_heading('Discharge Medications', level=1)
+    if patient.medications:
+        med_table = doc.add_table(rows=1, cols=5)
+        med_table.style = 'Light Grid Accent 1'
+        hdr = med_table.rows[0].cells
+        hdr[0].text = 'Medication'
+        hdr[1].text = 'Dose'
+        hdr[2].text = 'Route'
+        hdr[3].text = 'Frequency'
+        hdr[4].text = 'Purpose'
+        for med in patient.medications:
+            row = med_table.add_row()
+            row.cells[0].text = med.get('name', '')
+            row.cells[1].text = med.get('dose', '')
+            row.cells[2].text = med.get('route', '')
+            row.cells[3].text = med.get('frequency', '')
+            row.cells[4].text = med.get('purpose', '')
+    else:
+        doc.add_paragraph('No medications listed.')
+    
+    doc.add_paragraph()
+    
+    # ── Allergies ──────────────────────────────────────────
+    doc.add_heading('Allergies', level=1)
+    if patient.allergies:
+        for a in patient.allergies:
+            doc.add_paragraph(f"{a['name']} — {a['reaction']}", style='List Bullet')
+    else:
+        doc.add_paragraph('No known allergies.')
+    
+    # ── Discharge Instructions ─────────────────────────────
+    doc.add_heading('Discharge Instructions', level=1)
+    if patient.discharge_instructions:
+        for instr in patient.discharge_instructions:
+            doc.add_paragraph(instr, style='List Number')
+    else:
+        doc.add_paragraph('None.')
+    
+    # ── Follow‑Up Appointments ─────────────────────────────
+    doc.add_heading('Follow‑Up Appointments', level=1)
+    if patient.follow_up:
+        fu_table = doc.add_table(rows=1, cols=3)
+        fu_table.style = 'Light Grid Accent 1'
+        hdr = fu_table.rows[0].cells
+        hdr[0].text = 'Provider / Specialty'
+        hdr[1].text = 'Date'
+        hdr[2].text = 'Contact'
+        for fu in patient.follow_up:
+            row = fu_table.add_row()
+            row.cells[0].text = f"{fu.get('provider', '')} ({fu.get('specialty', '')})"
+            row.cells[1].text = fu.get('date', '')
+            row.cells[2].text = fu.get('contact', '')
+    else:
+        doc.add_paragraph('None.')
+    
+    doc.add_paragraph()
+    
+    # ── Clinical Notes ─────────────────────────────────────
+    doc.add_heading('Clinical Notes', level=1)
+    if patient.notes:
+        doc.add_paragraph(patient.notes)
+    else:
+        doc.add_paragraph('None.')
+    
+    # ── Footer ─────────────────────────────────────────────
+    doc.add_paragraph()
+    paragraph = doc.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = paragraph.add_run('This document was generated by ClinicalDocsPro for educational purposes.')
+    run.font.size = Pt(8)
+    run.font.color.rgb = RGBColor(0x88, 0x88, 0x88)
+    
+    doc.save(output_path)
+    print(f"  Discharge Word document saved: {output_path}")
+    return output_path
 
 # ── Sample patient test ───────────────────────────────────────────────────────
 if __name__ == "__main__":

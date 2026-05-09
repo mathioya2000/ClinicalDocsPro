@@ -1,32 +1,83 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Patients</h1>
+
+<!-- Search form -->
 <form method="get" class="search-form">
     <input type="text" name="q" placeholder="Search by name, MRN, or ICD-10 code..." value="{{ query }}">
+    <input type="hidden" name="sort" value="{{ sort_by }}">
+    <input type="hidden" name="order" value="{{ order }}">
     <button type="submit">Search</button>
     {% if query %}<a href="{{ url_for('patients') }}" class="clear">Clear</a>{% endif %}
 </form>
 
 {% if patients %}
+<p>{{ total }} patient(s) found. Page {{ current_page }} of {{ pages }}.</p>
 <table>
     <thead>
-        <tr><th>MRN</th><th>Name</th><th>Admission</th><th>Discharge</th><th>Primary Diagnosis</th><th></th></tr>
+        <tr>
+            <th>
+                <a href="?q={{ query }}&sort=mrn&order={% if sort_by=='mrn' and order=='asc' %}desc{% else %}asc{% endif %}">
+                    MRN {% if sort_by=='mrn' %}{% if order=='asc' %}&#9650;{% else %}&#9660;{% endif %}{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?q={{ query }}&sort=name&order={% if sort_by=='name' and order=='asc' %}desc{% else %}asc{% endif %}">
+                    Name {% if sort_by=='name' %}{% if order=='asc' %}&#9650;{% else %}&#9660;{% endif %}{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?q={{ query }}&sort=admission_date&order={% if sort_by=='admission_date' and order=='asc' %}desc{% else %}asc{% endif %}">
+                    Admission {% if sort_by=='admission_date' %}{% if order=='asc' %}&#9650;{% else %}&#9660;{% endif %}{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?q={{ query }}&sort=discharge_date&order={% if sort_by=='discharge_date' and order=='asc' %}desc{% else %}asc{% endif %}">
+                    Discharge {% if sort_by=='discharge_date' %}{% if order=='asc' %}&#9650;{% else %}&#9660;{% endif %}{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?q={{ query }}&sort=primary_diagnosis_code&order={% if sort_by=='primary_diagnosis_code' and order=='asc' %}desc{% else %}asc{% endif %}">
+                    Primary Dx {% if sort_by=='primary_diagnosis_code' %}{% if order=='asc' %}&#9650;{% else %}&#9660;{% endif %}{% endif %}
+                </a>
+            </th>
+            <th>Action</th>
+        </tr>
     </thead>
     <tbody>
-        {% for mrn, p in patients.items() %}
+        {% for p in patients %}
         <tr>
-            <td>{{ mrn }}</td>
+            <td>{{ p.mrn }}</td>
             <td>{{ p.name }}</td>
             <td>{{ p.admission_date }}</td>
             <td>{{ p.discharge_date }}</td>
-            <td>{{ p.primary_diagnosis.code }}</td>
-            <td><a href="{{ url_for('patient_detail', mrn=mrn) }}" class="btn small">View</a></td>
+            <td>{{ p.primary_code }}</td>
+            <td><a href="{{ url_for('patient_detail', mrn=p.mrn) }}" class="btn small">View</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Pagination -->
+<div class="pagination">
+    {% if current_page > 1 %}
+        <a href="?q={{ query }}&sort={{ sort_by }}&order={{ order }}&page={{ current_page - 1 }}" class="btn small">← Previous</a>
+    {% endif %}
+    {% for p in range(1, pages + 1) %}
+        {% if p == current_page %}
+            <strong>{{ p }}</strong>
+        {% else %}
+            <a href="?q={{ query }}&sort={{ sort_by }}&order={{ order }}&page={{ p }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+    {% if current_page < pages %}
+        <a href="?q={{ query }}&sort={{ sort_by }}&order={{ order }}&page={{ current_page + 1 }}" class="btn small">Next →</a>
+    {% endif %}
+</div>
 {% else %}
-<p>No patients found.</p>
+<p>No patients found. <a href="{{ url_for('new_patient') }}">Add one?</a></p>
 {% endif %}
+
 <a href="{{ url_for('new_patient') }}" class="btn">Add New Patient</a>
 {% endblock %}
+<a href="{{ url_for('export_csv') }}" class="btn">Export All to CSV</a>

@@ -93,6 +93,7 @@
 
 <div class="actions">
     <a href="{{ url_for('patient_report', mrn=patient.mrn) }}" class="btn">Download PDF Report</a>
+    <a href="{{ url_for('patient_discharge_word', mrn=patient.mrn) }}" class="btn">Download Discharge Letter (Word)</a>
     <form method="post" action="{{ url_for('patient_delete', mrn=patient.mrn) }}" style="display:inline;">
         <button type="submit" class="btn delete" onclick="return confirm('Delete this patient?')">Delete Patient</button>
     </form>

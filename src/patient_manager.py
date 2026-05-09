@@ -1,195 +1,336 @@
 # patient_manager.py
-# Save, load, list and search patients from a local JSON database
+# SQLite-backed patient storage (replaces JSON file)
 
 import os
+import sqlite3
 import json
 import sys
 from datetime import date
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from utils import BASE_DIR, REPORTS_DIR
+from utils import BASE_DIR
 from report_builder import Patient, build_report
 
 # ── Database path ─────────────────────────────────────────────────────────────
-DB_DIR  = os.path.join(BASE_DIR, "patients", "patient_records")
-DB_FILE = os.path.join(BASE_DIR, "patients", "patients_db.json")
+DB_FILE = os.path.join(BASE_DIR, "patients", "patients.db")
 
+# ── Database helpers ──────────────────────────────────────────────────────────
+def get_connection():
+    """Open a connection to the SQLite database (auto-commits)."""
+    conn = sqlite3.connect(DB_FILE)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")   # better concurrency
+    conn.execute("PRAGMA foreign_keys=ON")
+    return conn
 
-# ── Load / Save database ──────────────────────────────────────────────────────
+def init_db():
+    """Create tables if they don't exist."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS patients (
+            mrn TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            dob TEXT,
+            sex TEXT,
+            admitting_physician TEXT,
+            admission_date TEXT,
+            discharge_date TEXT,
+            primary_diagnosis_code TEXT,
+            primary_diagnosis_name TEXT,
+            secondary_diagnoses TEXT,  -- JSON array
+            medications TEXT,          -- JSON array
+            allergies TEXT,            -- JSON array
+            discharge_instructions TEXT,-- JSON array
+            follow_up TEXT,            -- JSON array
+            notes TEXT,
+            created TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+# ── Convert row ↔ Patient object ──────────────────────────────────────────────
+def row_to_patient(row):
+    """Turn a database row into a Patient object."""
+    return Patient(
+        name               = row['name'],
+        dob                = row['dob'],
+        mrn                = row['mrn'],
+        sex                = row['sex'],
+        admitting_physician= row['admitting_physician'],
+        admission_date     = row['admission_date'],
+        discharge_date     = row['discharge_date'],
+        primary_diagnosis  = json.loads(row['primary_diagnosis_code']),
+        secondary_diagnoses= json.loads(row['secondary_diagnoses']),
+        medications        = json.loads(row['medications']),
+        allergies          = json.loads(row['allergies']),
+        discharge_instructions= json.loads(row['discharge_instructions']),
+        follow_up          = json.loads(row['follow_up']),
+        notes              = row['notes']
+    )
+
+# ── Public API (same as before) ───────────────────────────────────────────────
 def load_db():
-    """Load all patients from JSON database."""
-    if not os.path.exists(DB_FILE):
-        return {}
-    with open(DB_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+    """Return a dict {mrn: patient_dict} for compatibility with web routes."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT * FROM patients ORDER BY mrn")
+    rows = c.fetchall()
+    db = {}
+    for row in rows:
+        db[row['mrn']] = {
+            "name": row['name'],
+            "dob": row['dob'],
+            "mrn": row['mrn'],
+            "sex": row['sex'],
+            "admitting_physician": row['admitting_physician'],
+            "admission_date": row['admission_date'],
+            "discharge_date": row['discharge_date'],
+            "primary_diagnosis": json.loads(row['primary_diagnosis_code']),
+            "secondary_diagnoses": json.loads(row['secondary_diagnoses']),
+            "medications": json.loads(row['medications']),
+            "allergies": json.loads(row['allergies']),
+            "discharge_instructions": json.loads(row['discharge_instructions']),
+            "follow_up": json.loads(row['follow_up']),
+            "notes": row['notes'],
+            "created": row['created']
+        }
+    conn.close()
+    return db
 
-
-def save_db(db):
-    """Save patient database to JSON file."""
-    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
-    with open(DB_FILE, "w", encoding="utf-8") as f:
-        json.dump(db, f, indent=2, ensure_ascii=False)
-
-
-# ── Add a patient ─────────────────────────────────────────────────────────────
 def add_patient(patient):
-    """
-    Add or update a patient in the database.
-    Uses MRN as unique key.
-    """
-    db = load_db()
-    db[patient.mrn] = {
-        "name":                   patient.name,
-        "dob":                    patient.dob,
-        "mrn":                    patient.mrn,
-        "sex":                    patient.sex,
-        "admitting_physician":    patient.admitting_physician,
-        "admission_date":         patient.admission_date,
-        "discharge_date":         patient.discharge_date,
-        "primary_diagnosis":      patient.primary_diagnosis,
-        "secondary_diagnoses":    patient.secondary_diagnoses,
-        "medications":            patient.medications,
-        "allergies":              patient.allergies,
-        "discharge_instructions": patient.discharge_instructions,
-        "follow_up":              patient.follow_up,
-        "notes":                  patient.notes,
-        "created":                str(date.today()),
-    }
-    save_db(db)
+    """Insert or replace a patient (upsert on MRN)."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        INSERT OR REPLACE INTO patients (
+            mrn, name, dob, sex, admitting_physician,
+            admission_date, discharge_date,
+            primary_diagnosis_code, primary_diagnosis_name,
+            secondary_diagnoses, medications, allergies,
+            discharge_instructions, follow_up, notes, created
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        patient.mrn,
+        patient.name,
+        patient.dob,
+        patient.sex,
+        patient.admitting_physician,
+        patient.admission_date,
+        patient.discharge_date,
+        json.dumps(patient.primary_diagnosis),
+        patient.primary_diagnosis.get('code', '') + ' - ' + patient.primary_diagnosis.get('name', ''),
+        json.dumps(patient.secondary_diagnoses),
+        json.dumps(patient.medications),
+        json.dumps(patient.allergies),
+        json.dumps(patient.discharge_instructions),
+        json.dumps(patient.follow_up),
+        patient.notes,
+        str(date.today())
+    ))
+    conn.commit()
+    conn.close()
     print(f"  Saved: {patient.name} (MRN: {patient.mrn})")
     return patient.mrn
 
-
-# ── Load a patient by MRN ─────────────────────────────────────────────────────
 def get_patient(mrn):
-    """Load a patient from the database by MRN."""
-    db = load_db()
-    if mrn not in db:
+    """Retrieve a single patient by MRN."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT * FROM patients WHERE mrn = ?", (mrn,))
+    row = c.fetchone()
+    conn.close()
+    if row is None:
         print(f"  Patient MRN '{mrn}' not found.")
         return None
-    data = db[mrn]
-    return Patient(
-        name                  = data["name"],
-        dob                   = data["dob"],
-        mrn                   = data["mrn"],
-        sex                   = data["sex"],
-        admitting_physician   = data["admitting_physician"],
-        admission_date        = data["admission_date"],
-        discharge_date        = data["discharge_date"],
-        primary_diagnosis     = data["primary_diagnosis"],
-        secondary_diagnoses   = data.get("secondary_diagnoses",    []),
-        medications           = data.get("medications",            []),
-        allergies             = data.get("allergies",              []),
-        discharge_instructions= data.get("discharge_instructions", []),
-        follow_up             = data.get("follow_up",              []),
-        notes                 = data.get("notes",                  ""),
-    )
+    return row_to_patient(row)
 
-
-# ── List all patients ─────────────────────────────────────────────────────────
 def list_patients():
-    """Print a summary table of all patients in the database."""
-    db = load_db()
-    if not db:
+    """Print a summary table of all patients."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT mrn, name, admission_date, discharge_date, primary_diagnosis_code FROM patients ORDER BY mrn")
+    rows = c.fetchall()
+    if not rows:
         print("  No patients found in database.")
         return []
 
     print(f"\n  {'MRN':<15} {'Name':<25} {'Admission':<15} {'Discharge':<15} {'Primary Dx'}")
     print(f"  {'-'*15} {'-'*25} {'-'*15} {'-'*15} {'-'*30}")
+    for row in rows:
+        dx = json.loads(row['primary_diagnosis_code']) if row['primary_diagnosis_code'] else {}
+        print(f"  {row['mrn']:<15} {row['name']:<25} "
+              f"{row['admission_date']:<15} "
+              f"{row['discharge_date']:<15} "
+              f"{dx.get('code', '')}")
+    conn.close()
+    return list(load_db().keys())
 
-    for mrn, data in db.items():
-        print(f"  {mrn:<15} {data['name']:<25} "
-              f"{data['admission_date']:<15} "
-              f"{data['discharge_date']:<15} "
-              f"{data['primary_diagnosis']['code']}")
-    return list(db.keys())
-
-
-# ── Search patients ───────────────────────────────────────────────────────────
 def search_patients(query):
+    """Search patients by name, MRN, or ICD-10 code."""
+    conn = get_connection()
+    c = conn.cursor()
+    q = f"%{query}%"
+    c.execute("""
+        SELECT mrn FROM patients
+        WHERE name LIKE ?
+           OR mrn LIKE ?
+           OR primary_diagnosis_code LIKE ?
+           OR secondary_diagnoses LIKE ?
+    """, (q, q, q, q))
+    rows = c.fetchall()
+    conn.close()
+    return [row['mrn'] for row in rows]
+
+def search_patients_paginated(query, sort_by='mrn', order='asc', page=1, per_page=10):
     """
-    Search patients by name, MRN, or ICD-10 code.
-    Returns list of matching MRNs.
+    Search + sort + paginate. Returns a dict with keys:
+        patients: list of patient_dicts
+        total: total matching rows
+        pages: total number of pages
+        current_page: current page number
     """
-    db      = load_db()
-    query   = query.lower().strip()
-    matches = []
+    conn = get_connection()
+    c = conn.cursor()
+    
+    # Build WHERE clause
+    where = ""
+    params = []
+    if query:
+        q = f"%{query}%"
+        where = "WHERE name LIKE ? OR mrn LIKE ? OR primary_diagnosis_code LIKE ? OR secondary_diagnoses LIKE ?"
+        params = [q, q, q, q]
+    
+    # Count total matches
+    count_sql = f"SELECT COUNT(*) FROM patients {where}"
+    c.execute(count_sql, params)
+    total = c.fetchone()[0]
+    
+    # Determine total pages
+    pages = max(1, -(-total // per_page))  # ceil division
+    current_page = max(1, min(page, pages))
+    offset = (current_page - 1) * per_page
+    
+    # Validate sort column (only allow safe columns to prevent injection)
+    allowed_sort = ['mrn', 'name', 'admission_date', 'discharge_date', 'primary_diagnosis_code']
+    if sort_by not in allowed_sort:
+        sort_by = 'mrn'
+    order = 'ASC' if order.lower() == 'asc' else 'DESC'
+    
+    # Fetch the page of patients
+    sql = f"""
+        SELECT mrn, name, admission_date, discharge_date, primary_diagnosis_code
+        FROM patients {where}
+        ORDER BY {sort_by} {order}
+        LIMIT ? OFFSET ?
+    """
+    c.execute(sql, params + [per_page, offset])
+    rows = c.fetchall()
+    
+    patients = []
+    for row in rows:
+        dx = json.loads(row['primary_diagnosis_code']) if row['primary_diagnosis_code'] else {}
+        patients.append({
+            'mrn': row['mrn'],
+            'name': row['name'],
+            'admission_date': row['admission_date'],
+            'discharge_date': row['discharge_date'],
+            'primary_code': dx.get('code', ''),
+            'primary_name': dx.get('name', '')
+        })
+    
+    conn.close()
+    return {
+        'patients': patients,
+        'total': total,
+        'pages': pages,
+        'current_page': current_page
+    }
 
-    for mrn, data in db.items():
-        if (query in data["name"].lower() or
-            query in mrn.lower() or
-            query in data["primary_diagnosis"]["code"].lower() or
-            any(query in d["code"].lower()
-                for d in data.get("secondary_diagnoses", []))):
-            matches.append(mrn)
-
-    return matches
-
-
-# ── Delete a patient ──────────────────────────────────────────────────────────
 def delete_patient(mrn):
-    """Remove a patient from the database by MRN."""
-    db = load_db()
-    if mrn not in db:
+    """Delete a patient from the database."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT name FROM patients WHERE mrn = ?", (mrn,))
+    row = c.fetchone()
+    if row is None:
         print(f"  Patient MRN '{mrn}' not found.")
+        conn.close()
         return False
-    name = db[mrn]["name"]
-    del db[mrn]
-    save_db(db)
+    name = row['name']
+    c.execute("DELETE FROM patients WHERE mrn = ?", (mrn,))
+    conn.commit()
+    conn.close()
     print(f"  Deleted: {name} (MRN: {mrn})")
     return True
 
-
-# ── Generate report for a saved patient ──────────────────────────────────────
 def generate_patient_report(mrn, include_guidelines=True):
-    """Load a patient by MRN and generate their PDF report."""
+    """Load a patient by MRN and generate PDF report."""
     patient = get_patient(mrn)
     if not patient:
         return None
     print(f"\n  Generating report for: {patient.name}")
     return build_report(patient, include_guidelines=include_guidelines)
 
-
-# ── Export patient to JSON file ───────────────────────────────────────────────
 def export_patient(mrn):
-    """Export a single patient record to a JSON file."""
-    db = load_db()
-    if mrn not in db:
+    """Export a single patient record to JSON file."""
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT * FROM patients WHERE mrn = ?", (mrn,))
+    row = c.fetchone()
+    if row is None:
         print(f"  Patient MRN '{mrn}' not found.")
+        conn.close()
         return None
-    os.makedirs(DB_DIR, exist_ok=True)
-    filename  = f"{mrn}_record.json"
-    filepath  = os.path.join(DB_DIR, filename)
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(db[mrn], f, indent=2, ensure_ascii=False)
+    os.makedirs(os.path.join(BASE_DIR, "patients", "patient_records"), exist_ok=True)
+    filename = f"{mrn}_record.json"
+    filepath = os.path.join(BASE_DIR, "patients", "patient_records", filename)
+    record = {
+        "name": row['name'],
+        "dob": row['dob'],
+        "mrn": row['mrn'],
+        "sex": row['sex'],
+        "admitting_physician": row['admitting_physician'],
+        "admission_date": row['admission_date'],
+        "discharge_date": row['discharge_date'],
+        "primary_diagnosis": json.loads(row['primary_diagnosis_code']),
+        "secondary_diagnoses": json.loads(row['secondary_diagnoses']),
+        "medications": json.loads(row['medications']),
+        "allergies": json.loads(row['allergies']),
+        "discharge_instructions": json.loads(row['discharge_instructions']),
+        "follow_up": json.loads(row['follow_up']),
+        "notes": row['notes'],
+        "created": row['created']
+    }
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(record, f, indent=2, ensure_ascii=False)
+    conn.close()
     print(f"  Exported: {filepath}")
     return filepath
 
-
-# ── Database stats ────────────────────────────────────────────────────────────
 def db_stats():
     """Print database statistics."""
-    db = load_db()
-    if not db:
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM patients")
+    total = c.fetchone()[0]
+    if total == 0:
         print("  Database is empty.")
+        conn.close()
         return
-
-    total = len(db)
-    codes = {}
-    for data in db.values():
-        code = data["primary_diagnosis"]["code"]
-        codes[code] = codes.get(code, 0) + 1
-
+    c.execute("SELECT primary_diagnosis_code, COUNT(*) FROM patients GROUP BY primary_diagnosis_code ORDER BY COUNT(*) DESC")
     print(f"\n  Total patients : {total}")
     print(f"  Database file  : {DB_FILE}")
     print(f"\n  Primary diagnoses:")
-    for code, count in sorted(codes.items(), key=lambda x: -x[1]):
-        print(f"    {code:<12} {count} patient(s)")
-
+    for row in c.fetchall():
+        dx = json.loads(row[0]) if row[0] else {}
+        code = dx.get('code', 'Unknown')
+        print(f"    {code:<12} {row[1]} patient(s)")
+    conn.close()
 
 # ── Interactive menu ──────────────────────────────────────────────────────────
 def menu():
-    """Simple interactive CLI menu."""
     while True:
         print("\n" + "="*50)
         print("  ClinicalDocsPro — Patient Manager")
@@ -202,12 +343,9 @@ def menu():
         print("  6. Database stats")
         print("  0. Exit")
         print("-"*50)
-
         choice = input("  Enter choice: ").strip()
-
         if choice == "1":
             list_patients()
-
         elif choice == "2":
             q = input("  Search (name / MRN / ICD-10 code): ").strip()
             results = search_patients(q)
@@ -219,162 +357,29 @@ def menu():
                         print(f"    • {p.name} — MRN: {p.mrn}")
             else:
                 print("  No matches found.")
-
         elif choice == "3":
             mrn = input("  Enter MRN: ").strip()
             result = generate_patient_report(mrn)
             if result:
                 print(f"\n  Report saved to: {result}")
-
         elif choice == "4":
             mrn = input("  Enter MRN: ").strip()
             export_patient(mrn)
-
         elif choice == "5":
             mrn = input("  Enter MRN: ").strip()
             confirm = input(f"  Delete patient {mrn}? (yes/no): ").strip().lower()
             if confirm == "yes":
                 delete_patient(mrn)
-
         elif choice == "6":
             db_stats()
-
         elif choice == "0":
             print("\n  Goodbye!")
             break
-
         else:
             print("  Invalid choice. Please try again.")
 
-
-# ── Test run ──────────────────────────────────────────────────────────────────
+# ── If run directly, initialize DB and run menu ───────────────────────────────
 if __name__ == "__main__":
     print("=== ClinicalDocsPro — Patient Manager ===\n")
-
-    # Create and save sample patients
-    patients = [
-        Patient(
-            name="John M. Doe",      dob="March 14, 1958",
-            mrn="0047821-B",         sex="Male",
-            admitting_physician="Dr. Sarah L. Martinez, MD",
-            admission_date="April 28, 2026",
-            discharge_date="May 3, 2026",
-            primary_diagnosis={"code": "I50.22"},
-            secondary_diagnoses=[
-                {"code": "I48.91"}, {"code": "E11.65"},
-                {"code": "N18.32"}, {"code": "I10"},
-            ],
-            medications=[
-                {"name": "Furosemide",   "dose": "80 mg",  "route": "Oral", "frequency": "BID",    "purpose": "Diuresis"},
-                {"name": "Bisoprolol",   "dose": "5 mg",   "route": "Oral", "frequency": "Daily",  "purpose": "Rate/BP"},
-                {"name": "Apixaban",     "dose": "5 mg",   "route": "Oral", "frequency": "BID",    "purpose": "AFib"},
-                {"name": "Metformin",    "dose": "500 mg", "route": "Oral", "frequency": "BID",    "purpose": "Diabetes"},
-            ],
-            allergies=[
-                {"name": "Penicillin", "reaction": "Rash"},
-                {"name": "Codeine",    "reaction": "Nausea"},
-            ],
-            discharge_instructions=[
-                "Sodium < 1,500 mg/day",
-                "Weigh daily; call MD if +2 lbs in 1 day",
-                "Light walking 10-15 minutes twice daily",
-            ],
-            follow_up=[
-                {"provider": "Dr. R. Flores",  "specialty": "Primary Care", "date": "May 7, 2026",  "contact": "(936) 555-0142"},
-                {"provider": "Dr. A. Hughes",  "specialty": "Cardiology",   "date": "May 12, 2026", "contact": "(936) 555-0287"},
-            ],
-            notes="5-day admission for ADHF. Discharged stable with home health."
-        ),
-        Patient(
-            name="Maria L. Santos",  dob="July 22, 1965",
-            mrn="0051234-A",         sex="Female",
-            admitting_physician="Dr. Kevin R. Owens, MD",
-            admission_date="May 1, 2026",
-            discharge_date="May 5, 2026",
-            primary_diagnosis={"code": "J44.1"},
-            secondary_diagnoses=[
-                {"code": "E11.9"}, {"code": "E66.09"},
-            ],
-            medications=[
-                {"name": "Tiotropium",    "dose": "18 mcg", "route": "Inhaled", "frequency": "Daily",  "purpose": "COPD"},
-                {"name": "Salbutamol",    "dose": "100 mcg","route": "Inhaled", "frequency": "PRN",    "purpose": "Rescue"},
-                {"name": "Prednisolone",  "dose": "40 mg",  "route": "Oral",    "frequency": "Daily",  "purpose": "Exacerbation"},
-                {"name": "Metformin",     "dose": "1000 mg","route": "Oral",    "frequency": "BID",    "purpose": "Diabetes"},
-            ],
-            allergies=[
-                {"name": "Aspirin", "reaction": "Bronchospasm"},
-            ],
-            discharge_instructions=[
-                "Use tiotropium inhaler every morning",
-                "Carry salbutamol rescue inhaler at all times",
-                "Complete prednisolone course as prescribed",
-                "Stop smoking — referral to cessation programme provided",
-            ],
-            follow_up=[
-                {"provider": "Dr. K. Owens",   "specialty": "Pulmonology",  "date": "May 12, 2026", "contact": "(936) 555-0198"},
-                {"provider": "Dr. R. Flores",  "specialty": "Primary Care", "date": "May 15, 2026", "contact": "(936) 555-0142"},
-            ],
-            notes="Admitted with COPD exacerbation. GOLD Grade 3. Discharged on triple therapy."
-        ),
-        Patient(
-            name="Robert T. Kim",    dob="November 5, 1972",
-            mrn="0062891-C",         sex="Male",
-            admitting_physician="Dr. Angela T. Hughes, MD",
-            admission_date="May 4, 2026",
-            discharge_date="May 6, 2026",
-            primary_diagnosis={"code": "I10"},
-            secondary_diagnoses=[
-                {"code": "E78.5"}, {"code": "F32.1"},
-            ],
-            medications=[
-                {"name": "Amlodipine",    "dose": "10 mg",  "route": "Oral", "frequency": "Daily",  "purpose": "HTN"},
-                {"name": "Lisinopril",    "dose": "20 mg",  "route": "Oral", "frequency": "Daily",  "purpose": "HTN"},
-                {"name": "Atorvastatin",  "dose": "40 mg",  "route": "Oral", "frequency": "Nightly","purpose": "Cholesterol"},
-                {"name": "Sertraline",    "dose": "50 mg",  "route": "Oral", "frequency": "Daily",  "purpose": "Depression"},
-            ],
-            allergies=[
-                {"name": "Sulfa drugs", "reaction": "Rash"},
-            ],
-            discharge_instructions=[
-                "Monitor BP at home twice daily; log readings",
-                "Low-sodium diet < 1,500 mg/day",
-                "Exercise 30 minutes most days",
-                "Continue sertraline; follow up with psychiatry",
-            ],
-            follow_up=[
-                {"provider": "Dr. A. Hughes",  "specialty": "Cardiology",   "date": "May 14, 2026", "contact": "(936) 555-0287"},
-                {"provider": "Dr. P. Nguyen",  "specialty": "Psychiatry",   "date": "May 21, 2026", "contact": "(936) 555-0445"},
-            ],
-            notes="Admitted for hypertensive urgency. BP controlled on dual therapy. Depression identified; sertraline started."
-        ),
-    ]
-
-    # Save all patients
-    print("Saving patients to database...")
-    for p in patients:
-        add_patient(p)
-
-    # List all
-    print("\nAll patients in database:")
-    list_patients()
-
-    # Stats
-    print("\nDatabase statistics:")
-    db_stats()
-
-    # Search test
-    print("\nSearch test — query 'I10':")
-    results = search_patients("I10")
-    print(f"  Found: {results}")
-
-    # Export test
-    print("\nExporting first patient record:")
-    export_patient("0047821-B")
-
-    # Generate report
-    print("\nGenerating report for Robert T. Kim:")
-    generate_patient_report("0062891-C")
-
-    print("\n=== All tests passed! ===")
-    print("\nTo open the interactive menu run:")
-    print("  python src/patient_manager.py --menu")
+    init_db()
+    menu()

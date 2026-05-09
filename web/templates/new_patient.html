@@ -19,15 +19,21 @@
 
     <fieldset>
         <legend>Primary Diagnosis (ICD-10)</legend>
-        <label>Code: <input type="text" name="primary_code" placeholder="e.g. I50.22" required></label>
+        <label>Search code or name: <input type="text" id="primary-code-search" placeholder="e.g. I50.22 or Heart Failure" autocomplete="off"></label>
+        <div id="primary-suggestions" class="autocomplete-items"></div>
+        <label>Selected Code: <input type="text" name="primary_code" id="primary-code" required readonly></label>
     </fieldset>
 
     <fieldset>
         <legend>Secondary Diagnoses (optional)</legend>
         <div id="secondary-dx">
-            <div><input type="text" name="secondary_codes" placeholder="ICD-10 code"></div>
+            <div class="secondary-row">
+                <input type="text" class="secondary-search" placeholder="Search ICD-10 code..." autocomplete="off">
+                <input type="text" class="secondary-code" name="secondary_codes" placeholder="Code" readonly>
+                <div class="autocomplete-items" style="display:none;"></div>
+            </div>
         </div>
-        <button type="button" onclick="addField('secondary-dx','secondary_codes','ICD-10 code')">+ Add</button>
+        <button type="button" onclick="addSecondaryRow()">+ Add Another Diagnosis</button>
     </fieldset>
 
     <fieldset>
@@ -82,11 +88,99 @@
 </form>
 
 <script>
-function addField(containerId, name, placeholder) {
-    const div = document.createElement('div');
-    div.innerHTML = `<input type="text" name="${name}" placeholder="${placeholder}">`;
-    document.getElementById(containerId).appendChild(div);
+// ── Autocomplete for primary diagnosis ──
+const primarySearch = document.getElementById('primary-code-search');
+const primarySuggestions = document.getElementById('primary-suggestions');
+const primaryCode = document.getElementById('primary-code');
+
+if (primarySearch) {
+    primarySearch.addEventListener('input', function() {
+        const val = this.value.trim();
+        if (val.length < 1) {
+            primarySuggestions.innerHTML = '';
+            return;
+        }
+        fetch('/api/icd10/search?q=' + encodeURIComponent(val))
+            .then(res => res.json())
+            .then(data => {
+                primarySuggestions.innerHTML = '';
+                data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.textContent = item.code + ' - ' + item.name;
+                    div.addEventListener('click', function() {
+                        primaryCode.value = item.code;
+                        primarySearch.value = item.code + ' - ' + item.name;
+                        primarySuggestions.innerHTML = '';
+                    });
+                    primarySuggestions.appendChild(div);
+                });
+            });
+    });
+    document.addEventListener('click', function(e) {
+        if (!primarySearch.contains(e.target) && !primarySuggestions.contains(e.target)) {
+            primarySuggestions.innerHTML = '';
+        }
+    });
 }
+
+// ── Autocomplete for secondary rows ──
+function attachAutocomplete(row) {
+    const searchInput = row.querySelector('.secondary-search');
+    const codeInput = row.querySelector('.secondary-code');
+    const suggestionsDiv = row.querySelector('.autocomplete-items');
+    if (!searchInput || !codeInput || !suggestionsDiv) return;
+
+    searchInput.addEventListener('input', function() {
+        const val = this.value.trim();
+        if (val.length < 1) {
+            suggestionsDiv.style.display = 'none';
+            suggestionsDiv.innerHTML = '';
+            return;
+        }
+        fetch('/api/icd10/search?q=' + encodeURIComponent(val))
+            .then(res => res.json())
+            .then(data => {
+                suggestionsDiv.innerHTML = '';
+                data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.textContent = item.code + ' - ' + item.name;
+                    div.addEventListener('click', function() {
+                        codeInput.value = item.code;
+                        searchInput.value = item.code + ' - ' + item.name;
+                        suggestionsDiv.style.display = 'none';
+                        suggestionsDiv.innerHTML = '';
+                    });
+                    suggestionsDiv.appendChild(div);
+                });
+                suggestionsDiv.style.display = data.length ? 'block' : 'none';
+            });
+    });
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+            suggestionsDiv.style.display = 'none';
+            suggestionsDiv.innerHTML = '';
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const existingRow = document.querySelector('#secondary-dx .secondary-row');
+    if (existingRow) attachAutocomplete(existingRow);
+});
+
+function addSecondaryRow() {
+    const container = document.getElementById('secondary-dx');
+    const row = document.createElement('div');
+    row.className = 'secondary-row';
+    row.innerHTML = `
+        <input type="text" class="secondary-search" placeholder="Search ICD-10 code..." autocomplete="off">
+        <input type="text" class="secondary-code" name="secondary_codes" placeholder="Code" readonly>
+        <div class="autocomplete-items" style="display:none;"></div>
+    `;
+    container.appendChild(row);
+    attachAutocomplete(row);
+}
+
 function addMedRow() {
     const div = document.createElement('div');
     div.className = 'med-row';
